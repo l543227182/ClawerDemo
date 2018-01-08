@@ -3,9 +3,9 @@
 
 # Custom for Visual Studio
 *.cs     diff=csharp
-*.js linguist-language=Scala
-*.css linguist-language=Scala
-*.html linguist-language=Scala
+*.js linguist-language=Java
+*.css linguist-language=Java
+*.html linguist-language=Java
 # Standard to msysgit
 *.doc	 diff=astextplain
 *.DOC	 diff=astextplain
