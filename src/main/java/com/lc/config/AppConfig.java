@@ -32,7 +32,7 @@ public class AppConfig extends WebSecurityConfigurerAdapter {
     @Bean("Crawler")
     public mainCrawler getSpider() {
         mainCrawler mainCrawler = new mainCrawler();
-        mainCrawler.startSpider();
+       //  mainCrawler.startSpider();
         return  mainCrawler;
     }
 }

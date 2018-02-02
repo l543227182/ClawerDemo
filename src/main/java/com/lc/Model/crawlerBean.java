@@ -1,4 +1,4 @@
-package com.lc.crawler;
+package com.lc.Model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -142,71 +142,3 @@ public class crawlerBean {
     }
 }
 
-class itemComment{
-    private String userType;
-    private double score;
-    private String simplizeComment;
-    private String serviceComment;
-    private String  overallComment;
-    private String [] itemServiceDetailComment = new String [4];
-
-    public String getServiceComment() {
-        return serviceComment;
-    }
-
-    public void setServiceComment(String serviceComment) {
-        this.serviceComment = serviceComment;
-    }
-
-    public String[] getItemServiceDetailComment() {
-        return itemServiceDetailComment;
-    }
-
-    public void setItemServiceDetailComment(String[] itemServiceDetailComment) {
-        this.itemServiceDetailComment = itemServiceDetailComment;
-    }
-
-    public String getUserType() {
-        return userType;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
-    }
-
-    public double getScore() {
-        return score;
-    }
-
-    public void setScore(double score) {
-        this.score = score;
-    }
-
-    public String getSimplizeComment() {
-        return simplizeComment;
-    }
-
-    public void setSimplizeComment(String simplizeComment) {
-        this.simplizeComment = simplizeComment;
-    }
-
-    public String getOverallComment() {
-        return overallComment;
-    }
-
-    public void setOverallComment(String overallComment) {
-        this.overallComment = overallComment;
-    }
-
-    @Override
-    public String toString() {
-        return "itemComment{" +
-                "userType='" + userType + '\'' +
-                ", score=" + score +
-                ", simplizeComment='" + simplizeComment + '\'' +
-                ", serviceComment='" + serviceComment + '\'' +
-                ", overallComment='" + overallComment + '\'' +
-                ", itemServiceDetailComment=" + Arrays.toString(itemServiceDetailComment) +
-                '}';
-    }
-}

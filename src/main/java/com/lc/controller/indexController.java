@@ -1,6 +1,6 @@
 package com.lc.controller;
 
-import com.lc.crawler.crawlerBean;
+import com.lc.Model.crawlerBean;
 import com.lc.crawler.mainCrawler;
 import com.lc.utils.person;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by luochao.byron on 2017/11/9.
@@ -24,6 +23,7 @@ public class indexController {
 
     @Autowired
     private mainCrawler crawler;
+
     @RequestMapping("/")
     public String index() {
         sayhello.SayHello();

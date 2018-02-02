@@ -1,4 +1,6 @@
 package com.lc.crawler;
+import com.lc.Model.crawlerBean;
+import com.lc.Model.itemComment;
 import org.apache.commons.lang3.StringUtils;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
