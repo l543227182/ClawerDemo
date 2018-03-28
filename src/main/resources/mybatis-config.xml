@@ -19,4 +19,8 @@
 
     <!-- Continue going here -->
 
+    <typeHandlers>
+        <typeHandler handler="com.lc.utils.StringArrayTypeHandler" javaType="[Ljava.lang.String;"/>
+    </typeHandlers>
+
 </configuration>

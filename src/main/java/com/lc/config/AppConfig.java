@@ -2,6 +2,7 @@ package com.lc.config;
 
 import com.lc.crawler.mainCrawler;
 import com.lc.utils.person;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -13,6 +14,7 @@ import us.codecraft.webmagic.proxy.SimpleProxyProvider;
 import us.codecraft.webmagic.scheduler.BloomFilterDuplicateRemover;
 import us.codecraft.webmagic.scheduler.PriorityScheduler;
 
+@MapperScan("com.lc.Mapper")
 @Configuration
 public class AppConfig extends WebSecurityConfigurerAdapter {
 
@@ -29,10 +31,10 @@ public class AppConfig extends WebSecurityConfigurerAdapter {
         return new person();
     }
 
-    @Bean("Crawler")
+    @Bean
     public mainCrawler getSpider() {
         mainCrawler mainCrawler = new mainCrawler();
-       //  mainCrawler.startSpider();
+        // mainCrawler.startSpider();
         return  mainCrawler;
     }
 }

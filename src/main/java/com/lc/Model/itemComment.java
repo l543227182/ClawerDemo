@@ -9,6 +9,16 @@ public class itemComment{
     private String serviceComment;
     private String  overallComment;
     private String [] itemServiceDetailComment = new String [4];
+    private String pid;
+
+    public void setPid(String pid) {
+        this.pid = pid;
+    }
+
+    public String getPid() {
+
+        return pid;
+    }
 
     public String getServiceComment() {
         return serviceComment;
@@ -67,6 +77,7 @@ public class itemComment{
                 ", serviceComment='" + serviceComment + '\'' +
                 ", overallComment='" + overallComment + '\'' +
                 ", itemServiceDetailComment=" + Arrays.toString(itemServiceDetailComment) +
+                ", pid='" + pid + '\'' +
                 '}';
     }
 }

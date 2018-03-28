@@ -1,7 +1,11 @@
 package com.lc.crawler;
+import com.lc.Mapper.DataMapper;
+import com.lc.Mapper.SubDataMapper;
 import com.lc.Model.crawlerBean;
 import com.lc.Model.itemComment;
+import com.lc.service.DataService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Site;
@@ -22,6 +26,10 @@ import java.util.concurrent.ConcurrentHashMap;
 public class mainCrawler implements PageProcessor {
     private Site site = Site.me().setRetryTimes(3).setSleepTime(1000).setTimeOut(10000);
     public static ConcurrentHashMap<String,crawlerBean> pageMap=new ConcurrentHashMap<String,crawlerBean>();
+
+    @Autowired
+    private DataService dataService;
+
     public void setComments(String pageURL, Html html){
         String pageKey = pageURL.substring(pageURL.lastIndexOf("/") + 1, pageURL.lastIndexOf(".")).split("-")[0];
         crawlerBean crawlerBean = pageMap.get(pageKey);
@@ -106,7 +114,7 @@ public class mainCrawler implements PageProcessor {
         }
         // 获取title
         String title = html.xpath("//div[@class='product_scroll_wrap new_scroll_wrap']/h1/text()").get();
-        System.out.println(title);
+        // System.out.println(title);
         cb.setAvargeScore(Double.parseDouble(score));
         cb.setResourceUrl(pageURL);
         cb.setCommentsCount(commentsCounts);
@@ -118,13 +126,17 @@ public class mainCrawler implements PageProcessor {
         try {
             Html html = page.getHtml();
             String pageURL = page.getUrl().get();
-            System.out.println(pageURL);
+            // System.out.println(pageURL);
             if (pageURL.contains("comment")) {
                 setComments(pageURL,html);
             }else if ((pageURL.contains("morelinetravel") ||
                     pageURL.contains("grouptravel") ||
                     pageURL.contains("freetravel") )&& !pageURL.contains("ask")&& !pageURL.contains("tours")){
-                dealTargetPage(pageURL,html,page);
+                try {
+                    dealTargetPage(pageURL,html,page);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }else{
                 Selectable links = page.getHtml().links();
                 List<String> all = links.regex("http://vacations.ctrip.com/tours/.*").all();
@@ -145,10 +157,10 @@ public class mainCrawler implements PageProcessor {
     public Site getSite() {
         return site;
     }
-
+    public Thread ClawlerThread ;
     public  Spider startSpider() {
         Spider spider = Spider.create(new mainCrawler()).addUrl("http://pages.ctrip.com/public/sitemap/dj.html").thread(5);
-        new Thread(new Runnable() {
+        ClawlerThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 HttpClientDownloader httpClientDownloader = new HttpClientDownloader();
@@ -162,7 +174,8 @@ public class mainCrawler implements PageProcessor {
                 //spider.setDownloader(httpClientDownloader);
                 spider.run();
             }
-        }).start();
+        });
+        this.ClawlerThread.start();
         return spider;
     }
 
@@ -183,11 +196,13 @@ public class mainCrawler implements PageProcessor {
                             if(value.getComments().size() < value.getCommentsCount()){
                                 continue;
                             }
+                            dataService.addData(value);
                             StringBuffer sb=new StringBuffer();
                             sb.append(value.getAvargeScore() +"\n").append(value.getCity()+"\n").append(value.getCommentsCount()+"\n").
                                     append(value.getEachScoreCount()+"\n").append(value.getResourceUrl()+"\n").append(value.getTitle()+"\n");
                             sb.append("\n\n评论们：\n");
                             for(itemComment ic:value.getComments()){
+                                ic.setPid(String.valueOf(value.getId()));
                                 sb.append(StringUtils.join(ic.getItemServiceDetailComment())+"\n").append(ic.getOverallComment()+"\n").append(ic.getScore()+"\n").append(ic.getServiceComment()+"\n")
                                         .append(ic.getSimplizeComment()+"\n").append(ic.getUserType()+"\n"+"\n");
                             }

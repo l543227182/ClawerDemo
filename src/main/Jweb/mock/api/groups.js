@@ -143,9 +143,9 @@ module.exports = {
       })
     }, 300)
   },
-  'GET /index': function (req, res) {
+  'GET /getCrawlerData': function (req, res) {
     Function.setTimeout(function () {
-      res.json({id: 1, name: 'jack', gender: 1, age: 18})
+      res.json([])
     }, 0)
   }
 }

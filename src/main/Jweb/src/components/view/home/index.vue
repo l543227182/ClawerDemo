@@ -10,7 +10,6 @@
       <el-table
         :data="crawlerData"
         v-loading.body="loading"
-        @sort-change="sortChange"
         ref="character">
         <el-table-column
           column-key="tags"
@@ -59,33 +58,25 @@
   })
   export default class index extends Vue {
     mounted () {
+      this.fetchData()
     }
+    total = 0
+    loading = false
     currentCommentsData = {}
     showComments = false
-    fetchData () {
-      const url = '/groups/settings'
-      this.$loading({text: '加载中'})
-      this.$http.get(url).then(res => {
-        if (res.data !== null) {
-          this.formData = res.data
-        }
-      }).catch(error => {
-        this.$message.error(`加载数据失败，原因：${error}`)
-      }).then(() => {
-        this.$loading().close()
-      })
-    }
     crawlerData = []
-    refreshMethod () {
+    fetchData () {
       const params = {}
       const pagination = this.$refs.page
       if (pagination) {
-        params.offset = pagination.cursor
-        params.limit = pagination.pageSize
+        params.start = pagination.cursor
+        params.pageSize = pagination.pageSize
       }
-      this.$http.get('/getCrawlerData', params).then(res => {
-        if (res.data !== null) {
-          this.crawlerData = res.data
+      this.$http.get('/getCrawlerData', {params: params}).then(res => {
+        var data = res.data
+        if (data.data !== null) {
+          this.crawlerData = data.data
+          this.total = data.total
         }
       }).catch(error => {
         this.$message.error(`加载数据失败，原因：${error}`)
